@@ -34,6 +34,38 @@ The audit should focus on:
 14. effective stress, total stress, pore pressure, and u-p coupling if available;
 15. which design ideas should be transferred to a MATLAB minimal production MPM host.
 
+## Native material pressure-test focus
+
+In addition to auditing the MPM vehicle, also audit existing native constitutive models that can be used to de-risk the MATLAB clean-host rebuild before the Liao model is migrated.
+
+Focus on existing materials only. Do not implement new materials.
+
+Prioritise:
+
+1. Elastic material:
+   - for P2G/G2P, internal-force, body-force, gravity and geostatic validation.
+
+2. Mohr-Coulomb or Drucker-Prager if available:
+   - for dry slope smoke, simple plastic slope, shear localisation, boundary and runout checks.
+
+3. Modified Cam Clay or other stateful geomechanics material if available:
+   - for material-state persistence, hardening-variable storage, effective-stress logic and history-variable management.
+
+4. Existing two-phase, u-p, pore-pressure or undrained examples if available:
+   - for u → sigma' → internal-force handoff checks.
+
+The audit should identify which existing native models are useful for MATLAB validation Gates B-E before migrating the Liao kernel.
+
+The goal is to use native materials as chassis and interface pressure tests, not as replacements for the Liao model.
+
+Do not over-expand into a full constitutive-model survey. Only extract the models that help de-risk:
+- force balance;
+- geostatic equilibrium;
+- boundary/runout;
+- material update sequence;
+- state-variable persistence;
+- effective-stress handoff.
+
 ## Liao model context for later stages
 
 The future MATLAB host should eventually support a Liao-type cyclic liquefaction constitutive model with particle-level variables:
